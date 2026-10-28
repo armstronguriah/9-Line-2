@@ -1,4 +1,5 @@
-import React, {useState } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from "react";
+import "./MedevacForm.css";
 
 interface MedevacFormData {
     location: string;
@@ -25,12 +26,35 @@ interface MedevacFormData {
     nbcContamination: string;
 }
 
-export const MedevacForm: React.FC = () => {
+type CheckboxSection = "specialEquipment" | "methodOfPickup";
+
+const specialEquipmentOptions: {
+    name: keyof MedevacFormData["specialEquipment"];
+    label: string;
+}[] = [
+    { name: "none", label: "None" },
+    { name: "hoist", label: "Hoist" },
+    { name: "extractionEquipment", label: "Extraction Equipment" },
+    { name: "ventilator", label: "Ventilator" },
+];
+
+const pickupOptions: {
+    name: keyof MedevacFormData["methodOfPickup"];
+    label: string;
+}[] = [
+    { name: "panels", label: "Panels" },
+    { name: "pyrotechnicSignal", label: "Pyrotechnic signal" },
+    { name: "smokeSignal", label: "Smoke Signal" },
+    { name: "none", label: "None" },
+    { name: "other", label: "Other" },
+];
+
+export function MedevacForm() {
     const [formData, setFormData] = useState<MedevacFormData>({
-        location: '',
-        callSign: '',
+        location: "",
+        callSign: "",
         patientNumber: 0,
-        precedence: '',
+        precedence: "",
         specialEquipment: {
             none: false,
             hoist: false,
@@ -39,7 +63,7 @@ export const MedevacForm: React.FC = () => {
         },
         litterPatients: 0,
         ambulatoryPatients: 0,
-        security: '',
+        security: "",
         methodOfPickup: {
             panels: false,
             pyrotechnicSignal: false,
@@ -47,213 +71,90 @@ export const MedevacForm: React.FC = () => {
             none: false,
             other: false,
         },
-        patientNationalityAndStatus: '',
-        nbcContamination: '',
+        patientNationalityAndStatus: "",
+        nbcContamination: "",
     });
-   //const [errors, setErrors] = useState<{ precedence?: string }>({});
+    const [submitted, setSubmitted] = useState(false);
 
+    // Updates text inputs and selects. Count fields are stored as numbers.
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = event.currentTarget;
+        const numericField = ["patientNumber", "litterPatients", "ambulatoryPatients"].includes(name);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const {name, value} = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: name === 'patientNumber' || name === 'litterPatients' || name === 'ambulatoryPatients'
-                ? parseInt(value) || 0
-                : value,
-        }))
-    };
-
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Form Submitted successfully:', formData);
-    };
-
-
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            specialEquipment: {
-                ...prev.specialEquipment,
-                [name]: checked,
-            },
+            [name]: numericField ? Number(value) || 0 : value,
         }));
+        setSubmitted(false);
     };
 
+    // Updates the correct nested checkbox group rather than always changing specialEquipment.
+    const handleCheckboxChange = (
+        section: CheckboxSection,
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        const { name, checked } = event.currentTarget;
 
+        setFormData((prev) => {
+            const updated: Record<string, boolean> = { ...prev[section], [name]: checked };
 
+            // "None" is mutually exclusive with the other checkboxes in the group.
+            if (checked && name === "none") {
+                for (const key of Object.keys(updated)) {
+                    if (key !== "none") updated[key] = false;
+                }
+            } else if (checked) {
+                updated.none = false;
+            }
+
+            return { ...prev, [section]: updated };
+        });
+        setSubmitted(false);
+    };
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        // These are the two fields shown as required in the reference screenshot.
+        if (!formData.precedence || !formData.patientNationalityAndStatus) {
+            setSubmitted(false);
+            return;
+        }
+
+        // Demo only: this does NOT transmit a real MEDEVAC request.
+        console.log("MEDEVAC form data (not transmitted):", formData);
+        setSubmitted(true);
+    };
 
     return (
         <div className="medevac-container">
             <h2 className="medevac-title">MEDEVAC Request Form</h2>
 
-            <form onSubmit={handleSubmit} className="medevac-form">
-
-
+            <form className="medevac-form" onSubmit={handleSubmit} noValidate>
                 <div className="field-group">
-                    <label htmlFor={"location"} className="field-label">Location</label>
+                    <label htmlFor="location" className="field-label">Location</label>
                     <input
-                        id={"location"}
+                        id="location"
                         type="text"
                         name="location"
                         value={formData.location}
                         onChange={handleInputChange}
+                        placeholder="56J MS 80443 25375"
                         className="text-input"
-                        placeholder="Enter MGRS Location"
                     />
-                    <div className="subtext">{'Enter MGRS Location'}</div>
                 </div>
-
+                <p className="subtext">MGRS Format</p>
 
                 <div className="field-group">
-                    <label htmlFor={"callsign"} className="field-label">Radio Frequency/ Call Sign / Suffix</label>
+                    <label htmlFor="callSign" className="field-label">
+                        Radio Frequency/ Call Sign / Suffix
+                    </label>
                     <input
-                        id={"callsign"}
+                        id="callSign"
                         type="text"
                         name="callSign"
-                        placeholder="Call Sign"
                         value={formData.callSign}
                         onChange={handleInputChange}
+                        placeholder="(Call Sign)"
                         className="text-input"
                     />
-                </div>
-
-
-                <div className="form-row">
-                    <div className="field-group flex-1">
-                        <label htmlFor={"patientNumber"} className="field-label">Patient Number</label>
-                        <input
-                            id={"patientNumber"}
-                            type="number"
-                            name="patientNumber"
-                            value={formData.patientNumber}
-                            onChange={handleInputChange}
-                            className="text-input"
-                        />
-                    </div>
-
-                    <div className={`field-wrapper flex-2 `}>
-                        <div className="field-group">
-                            <label htmlFor={"precedence"} className="field-label">Precedence</label>
-                            <select
-                                id={"precedence"}
-                                name="precedence"
-                                value={formData.precedence}
-                                onChange={handleInputChange}
-                                className="select-input"
-                            >
-                                <option value="">Select Precedence...</option>
-                                <option value="Urgent">Urgent</option>
-                                <option value="Urgent-Surgical">Urgent-Surgical</option>
-                                <option value="Priority">Priority</option>
-                                <option value="Routine">Routine</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className="equipment-section">
-                    <h3 className="section-header">Special Equipment</h3>
-
-                    <label className="checkbox-label">
-                        <input
-                            id="noneCheck"
-                            type="checkbox"
-                            name="none"
-                            checked={formData.specialEquipment.none}
-                            onChange={handleCheckboxChange}
-                            className="checkbox-input"
-                        />
-                        None
-                    </label>
-
-                    <label className="checkbox-label">
-                        <input
-                            id="hoistCheck"
-                            type="checkbox"
-                            name="hoist"
-                            checked={formData.specialEquipment.hoist}
-                            onChange={handleCheckboxChange}
-                            className="checkbox-input"
-                        />
-                        Hoist
-                    </label>
-
-                    <label className="checkbox-label">
-                        <input
-                            id="extractionCheck"
-                            type="checkbox"
-                            name="extractionEquipment"
-                            checked={formData.specialEquipment.extractionEquipment}
-                            onChange={handleCheckboxChange}
-                            className="checkbox-input"
-                        />
-                        Extraction Equipment
-                    </label>
-
-                    <label className="checkbox-label">
-                        <input
-                            id="ventilatorCheck"
-                            type="checkbox"
-                            name="ventilator"
-                            checked={formData.specialEquipment.ventilator}
-                            onChange={handleCheckboxChange}
-                            className="checkbox-input"
-                        />
-                        Ventilator
-                    </label>
-                </div>
-
-
-                <div className="form-row">
-                    <div className="field-group flex-1">
-                        <label className="field-label">Litter Patient #</label>
-                        <select
-                            name="litterPatients"
-                            value={formData.litterPatients}
-                            onChange={handleInputChange}
-                            className="select-input"
-                        >
-                            {[...Array(11).keys()].map(num => (
-                                <option key={num} value={num}>{num}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="field-group flex-1">
-                        <label className="field-label">Ambulatory Patient #</label>
-                        <select
-                            name="ambulatoryPatients"
-                            value={formData.ambulatoryPatients}
-                            onChange={handleInputChange}
-                            className="select-input"
-                        >
-                            {[...Array(11).keys()].map(num => (
-                                <option key={num} value={num}>{num}</option>
-                            ))}
-                        </select>
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-                </div>
-
-                <button type="submit" className="submit-button">
-                    Submit Request
-                </button>
-            </form>
-        </div>
-    );
-}
-
-
