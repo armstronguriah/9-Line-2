@@ -1,4 +1,4 @@
-const Home = () => {
+const Requester = () => {
     return(
         <>
             <h1>Requester Page</h1>
@@ -6,4 +6,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default Requester
