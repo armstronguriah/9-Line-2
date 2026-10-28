@@ -1,16 +1,12 @@
-import {NavLink} from "react-router";
+import {NavLink} from "react-router-dom";
 
 
 function NavBar() {
     return (
         <nav>
-            <h1>Nine Line Webpage</h1>
-            <br/>
-            <h1>Request</h1>
-            <br/>
-            <h1>Respond</h1>
-            <br/>
-            <h1>Dispatch</h1>
+            <NavLink to="/">Requester</NavLink>
+            <NavLink to="/responder">Responder</NavLink>
+            <NavLink to="/dispatcher">Dispatcher</NavLink>
         </nav>
 
     );
