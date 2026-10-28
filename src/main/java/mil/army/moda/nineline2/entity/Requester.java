@@ -18,5 +18,9 @@ public class Requester {
     @Id
     private Long id;
 
+    private String location;
+
+    private String radiofreq;
+
 
 }
