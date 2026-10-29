@@ -1,4 +1,3 @@
-
 package mil.army.moda.nineline2.controller;
 
 import lombok.RequiredArgsConstructor;
@@ -12,18 +11,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/requests")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Lombok generates the constructor for all final fields automatically!
 public class RequestController {
 
     private final RequestService requestService;
 
     // Create a new MEDEVAC request
     @PostMapping
-    public ResponseEntity<Request> createRequest(
-            @RequestBody Request request) {
-
+    public ResponseEntity<Request> createRequest(@RequestBody Request request) {
         Request newRequest = requestService.createRequest(request);
-
         return new ResponseEntity<>(newRequest, HttpStatus.CREATED);
     }
 

@@ -1,4 +1,3 @@
-
 package mil.army.moda.nineline2.service;
 
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RequestService {
 
-    private static RequestRepository requestRepository;
+    // Remove 'static' so Lombok/Spring can inject the bean
+    private final RequestRepository requestRepository;
 
-    public static Request createRequest(Request request) {
+    public Request createRequest(Request request) {
         return requestRepository.save(request);
     }
 
@@ -28,4 +28,3 @@ public class RequestService {
                         new RuntimeException("Request not found: " + id));
     }
 }
-

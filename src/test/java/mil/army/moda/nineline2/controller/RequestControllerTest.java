@@ -33,15 +33,15 @@ class RequestControllerTest {
         //Arrange
         Request request = new Request(1L, "MGRS12345", "12345", "1", "none", "amb", "none", "VS-17 Panels", "U.S.", "None");
         //Act
-        when(RequestService.createRequest(any(Request.class))).thenReturn(request);
+        when(requestService.createRequest(any(Request.class))).thenReturn(request);
         //Assert
         mockMvc.perform(post("/api/requests")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(request)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
-        verify(requestService, times(1));
-        RequestService.createRequest(any(Request.class));
+        verify(requestService, times(1))
+        .createRequest(any(Request.class));
     }
 
     @Test
