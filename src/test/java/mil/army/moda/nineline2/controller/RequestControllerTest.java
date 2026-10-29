@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(Request.class)
+@WebMvcTest(RequestController.class)
 class RequestControllerTest {
 
     @Autowired
@@ -26,27 +26,32 @@ class RequestControllerTest {
 
     @Autowired
     JsonMapper jsonMapper;
-    @Autowired
-    private mil.army.moda.nineline2.controller.RequestService RequestService;
+
 
     @Test
     void createRequest() throws Exception {
-        //Assign
-        Request request = new Request(1L, "MGRS12345", "12345", "1", "none", "amb", "none", "VS-17 Panels", "U.S.", "None");
         //Arrange
+        Request request = new Request(1L, "MGRS12345", "12345", "1", "none", "amb", "none", "VS-17 Panels", "U.S.", "None");
+        //Act
         when(RequestService.createRequest(any(Request.class))).thenReturn(request);
         //Assert
         mockMvc.perform(post("/api/requests")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonMapper.writeValueAsStrting(request)))
-                .andExpect(status().isOK());
+                .content(jsonMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
 
-        verify(RequestService, times(1)).adopt(any(Request.class));
+        verify(requestService, times(1));
+        RequestService.createRequest(any(Request.class));
     }
-
 
     @Test
     void getAllRequests() {
+
+
+
+
+
+
     }
 
     @Test
