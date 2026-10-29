@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RequestService {
 
-    private final RequestRepository requestRepository;
+    private static RequestRepository requestRepository;
 
-    public Request createRequest(Request request) {
+    public static Request createRequest(Request request) {
         return requestRepository.save(request);
     }
 
