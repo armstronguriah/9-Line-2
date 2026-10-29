@@ -1,4 +1,4 @@
-import {MedevacForm} from "../components/MedevacForm.tsx";
+import {MedevacForm} from "../components/MedevacForm_Tailwind";
 
 const Requester = () => {
     return(

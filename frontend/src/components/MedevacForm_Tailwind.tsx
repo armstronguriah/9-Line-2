@@ -177,8 +177,8 @@ export function MedevacForm() {
   };
 
   return (
-    <div className="w-full max-w-[390px] bg-white px-4 pb-6 pt-3 font-sans text-[#181818] max-[360px]:px-3">
-      <h2 className="mb-[19px] text-[18px] font-medium leading-tight">
+    <div className="w-full bg-white px-4 pb-6 pt-3 font-sans text-[#181818] ">
+      <h2 className="mb-[19px] text-black font-medium leading-tight">
         MEDEVAC Request Form
       </h2>
 
