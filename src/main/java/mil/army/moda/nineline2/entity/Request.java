@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "medevac_request")
@@ -45,4 +44,100 @@ public class Request {
 
     // Line 9: Terrain description or obstacles
     private String terrainDescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getRadiofreq() {
+        return radiofreq;
+    }
+
+    public void setRadiofreq(String radiofreq) {
+        this.radiofreq = radiofreq;
+    }
+
+    public String getPatientPrecedence() {
+        return patientPrecedence;
+    }
+
+    public void setPatientPrecedence(String patientPrecedence) {
+        this.patientPrecedence = patientPrecedence;
+    }
+
+    public String getSpecialEquipment() {
+        return specialEquipment;
+    }
+
+    public void setSpecialEquipment(String specialEquipment) {
+        this.specialEquipment = specialEquipment;
+    }
+
+    public String getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
+    }
+
+    public String getSiteSecurity() {
+        return siteSecurity;
+    }
+
+    public void setSiteSecurity(String siteSecurity) {
+        this.siteSecurity = siteSecurity;
+    }
+
+    public String getSiteMarking() {
+        return siteMarking;
+    }
+
+    public void setSiteMarking(String siteMarking) {
+        this.siteMarking = siteMarking;
+    }
+
+    public String getPatientNationalityStatus() {
+        return patientNationalityStatus;
+    }
+
+    public void setPatientNationalityStatus(String patientNationalityStatus) {
+        this.patientNationalityStatus = patientNationalityStatus;
+    }
+
+    public String getTerrainDescription() {
+        return terrainDescription;
+    }
+
+    public void setTerrainDescription(String terrainDescription) {
+        this.terrainDescription = terrainDescription;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "id=" + id +
+                ", location='" + location + '\'' +
+                ", radiofreq='" + radiofreq + '\'' +
+                ", patientPrecedence='" + patientPrecedence + '\'' +
+                ", specialEquipment='" + specialEquipment + '\'' +
+                ", patientType='" + patientType + '\'' +
+                ", siteSecurity='" + siteSecurity + '\'' +
+                ", siteMarking='" + siteMarking + '\'' +
+                ", patientNationalityStatus='" + patientNationalityStatus + '\'' +
+                ", terrainDescription='" + terrainDescription + '\'' +
+                '}';
+    }
 }
