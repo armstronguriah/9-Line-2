@@ -73,8 +73,17 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 function validateForm(data: MedevacFormData): FormErrors {
   const errors: FormErrors = {};
+  //Regex for MGRS input validation
+  const mgrsRegex =
+      /^(?:0?[1-9]|[1-5]\d|60)[C-HJ-NP-X][A-HJ-NP-Z][A-HJ-NP-V]\d{10}$/i;
+  const validateMGRS = (value: string): boolean => {
+    const normalized = value.replace(/\s/g, "").toUpperCase();
+
+    return mgrsRegex.test(normalized);
+  };
 
   if (!data.location.trim()) errors.location = "Required Field";
+  else if(!validateMGRS(data.location)) errors.location="Must be in MGRS Format";
   if (!data.callSign.trim()) errors.callSign = "Required Field";
   if (data.patientNumber === "" || data.patientNumber < 1) {
     errors.patientNumber = "Enter at least 1 patient";
