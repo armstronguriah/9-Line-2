@@ -1,5 +1,6 @@
 package mil.army.moda.nineline2.controller;
 
+import jakarta.validation.Valid;
 import mil.army.moda.nineline2.entity.Request;
 import mil.army.moda.nineline2.service.RequestService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/requests")
+@CrossOrigin(origins = "http://localhost:3000")
 public class RequestController {
 
     private final RequestService requestService;
@@ -20,7 +22,7 @@ public class RequestController {
 
     // Create a new MEDEVAC request
     @PostMapping
-    public ResponseEntity<Request> createRequest(@RequestBody Request request) {
+    public ResponseEntity<Request> createRequest(@Valid @RequestBody Request request) {
         Request newRequest = requestService.createRequest(request);
         return new ResponseEntity<>(newRequest, HttpStatus.CREATED);
     }
@@ -38,7 +40,7 @@ public class RequestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Request> updateRequest(@PathVariable("id") Long id, @RequestBody Request request) {
+    public ResponseEntity<Request> updateRequest(@Valid @PathVariable("id") Long id, @RequestBody Request request) {
         Request changes;
         changes = requestService.getRequestById(id);
         changes.setLocation(request.getLocation());

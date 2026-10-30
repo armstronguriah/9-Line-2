@@ -172,7 +172,7 @@ export function MedevacForm() {
     setSubmitted(false);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setShowErrors(true);
 
@@ -182,7 +182,34 @@ export function MedevacForm() {
     }
 
     // UI demonstration only: do not send or store sensitive details in a console.
+    try {
+      const requestBody = {
+        ...formData,
+        specialEquipment: JSON.stringify(formData.specialEquipment),
+        methodOfPickup: JSON.stringify(formData.methodOfPickup),
+      }
+
+      console.log(requestBody);
+
+      const response = await fetch(
+          "http://localhost:8080/api/requests",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody),
+          }
+      )
+      console.log(response)
+
+      const savedData = await response.json();
+
+      console.log(savedData);
+    }
+    catch (error) {
+      setSubmitted(false);
+    }
     setSubmitted(true);
+
   };
 
   return (

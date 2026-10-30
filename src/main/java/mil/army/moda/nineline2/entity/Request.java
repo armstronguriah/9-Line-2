@@ -3,6 +3,7 @@ package mil.army.moda.nineline2.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class Request {
     private String radiofreq;
 
     // Line 3a: # of Patients
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private Integer patientNumber;
 
@@ -44,12 +45,12 @@ public class Request {
     private String specialEquipment;
 
     // Line 5a: Patients Litter
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private Integer patientLitter;
 
     // Line 5b: Patients Ambulatory
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private Integer patientAmbulatory;
 

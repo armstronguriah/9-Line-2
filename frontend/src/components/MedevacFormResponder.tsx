@@ -1,5 +1,5 @@
 ///this is the table
-import MedevacForm from "./MedevacForm";
+import MedevacForm from "./MedevacForm_Tailwind.tsx";
 
 // const ResponderTable
   function MedevacFormResponder () {
@@ -10,9 +10,9 @@ import MedevacForm from "./MedevacForm";
       <table>
           <thead>
           <tr>
-              <th scope="col"  MedevacForm>
+              {/*<th scope="col"  MedevacForm>*/}
 
-              </th>
+              {/*</th>*/}
           </tr>
 
 
