@@ -179,9 +179,11 @@ public class Request {
                 "id=" + id +
                 ", location='" + location + '\'' +
                 ", radiofreq='" + radiofreq + '\'' +
+                ", patientNumber=" + patientNumber +
                 ", patientPrecedence='" + patientPrecedence + '\'' +
                 ", specialEquipment='" + specialEquipment + '\'' +
-                ", patientType='" + patientType + '\'' +
+                ", patientLitter=" + patientLitter +
+                ", patientAmbulatory=" + patientAmbulatory +
                 ", siteSecurity='" + siteSecurity + '\'' +
                 ", siteMarking='" + siteMarking + '\'' +
                 ", patientNationalityStatus='" + patientNationalityStatus + '\'' +
