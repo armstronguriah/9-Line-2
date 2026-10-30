@@ -1,5 +1,7 @@
 ///this is the table
-import MedevacForm from "./MedevacForm";
+import MedevacForm from "./RequestForm.tsx"
+
+
 
 // const ResponderTable
   function MedevacFormResponder () {
@@ -7,19 +9,25 @@ import MedevacForm from "./MedevacForm";
 
       return (
 
-      <table>
-          <thead>
-          <tr>
-              <th scope="col"  MedevacForm>
 
-              </th>
-          </tr>
+              <table>
+                  <thead>
+                  <tr>
+                      <th scope="col" id={"precedence"}>Precedence</th>
+                      <th scope="col" id={"location"}>Location</th>
+                      <th scope="col" id={"call_sign"}>Call Sign</th>
+                      <th scope="col" id={"security"}>Security</th>
+                      <th scope="col" id={"marking"}>Marking</th>
+                      <th scope="col" id={"special_equipment"}>Special Equipment</th>
+                      <th scope="col" id={"status"}>Status</th>
+                  </tr>
+              </thead>
+
+              <tbody>
 
 
-          </thead>
-          <tbody>
+              </tbody>
 
-          </tbody>
       </table>
       )
   }
