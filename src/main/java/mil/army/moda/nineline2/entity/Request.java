@@ -2,9 +2,9 @@
 package mil.army.moda.nineline2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -19,31 +19,63 @@ public class Request {
     private Long id;
 
     // Line 1: Pickup location
+    @NotBlank
+    @Column(nullable = false)
     private String location;
 
     // Line 2: Radio frequency, call sign, and suffix
+    @NotBlank
+    @Column(nullable = false)
     private String radiofreq;
 
-    // Line 3: Patients by precedence
+    // Line 3a: # of Patients
+    @NotBlank
+    @Column(nullable = false)
+    private Integer patientNumber;
+
+    // Line 3b: Patients by precedence
+    @NotBlank
+    @Column(nullable = false)
     private String patientPrecedence;
 
     // Line 4: Special equipment required
+    @NotBlank
+    @Column(nullable = false)
     private String specialEquipment;
 
-    // Line 5: Patients by type
-    private String patientType;
+    // Line 5a: Patients Litter
+    @NotBlank
+    @Column(nullable = false)
+    private Integer patientLitter;
+
+    // Line 5b: Patients Ambulatory
+    @NotBlank
+    @Column(nullable = false)
+    private Integer patientAmbulatory;
 
     // Line 6: Security at pickup site
+    @NotBlank
+    @Column(nullable = false)
     private String siteSecurity;
 
     // Line 7: Method of marking pickup site
+    @NotBlank
+    @Column(nullable = false)
     private String siteMarking;
 
     // Line 8: Patient nationality and status
+    @NotBlank
+    @Column(nullable = false)
     private String patientNationalityStatus;
 
     // Line 9: Terrain description or obstacles
+    @NotBlank
+    @Column(nullable = false)
     private String terrainDescription;
+
+    public Request() {
+
+    }
 
     public Long getId() {
         return id;
@@ -69,6 +101,14 @@ public class Request {
         this.radiofreq = radiofreq;
     }
 
+    public Integer getPatientNumber() {
+        return patientNumber;
+    }
+
+    public void setPatientNumber(Integer patientNumber) {
+        this.patientNumber = patientNumber;
+    }
+
     public String getPatientPrecedence() {
         return patientPrecedence;
     }
@@ -85,12 +125,20 @@ public class Request {
         this.specialEquipment = specialEquipment;
     }
 
-    public String getPatientType() {
-        return patientType;
+    public Integer getPatientLitter() {
+        return patientLitter;
     }
 
-    public void setPatientType(String patientType) {
-        this.patientType = patientType;
+    public void setPatientLitter(Integer patientLitter) {
+        this.patientLitter = patientLitter;
+    }
+
+    public Integer getPatientAmbulatory() {
+        return patientAmbulatory;
+    }
+
+    public void setPatientAmbulatory(Integer patientAmbulatory) {
+        this.patientAmbulatory = patientAmbulatory;
     }
 
     public String getSiteSecurity() {

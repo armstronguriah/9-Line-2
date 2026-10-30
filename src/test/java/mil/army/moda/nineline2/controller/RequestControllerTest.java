@@ -31,7 +31,7 @@ class RequestControllerTest {
     @Test
     void createRequest() throws Exception {
         //Arrange
-        Request request = new Request(1L, "MGRS12345", "12345", "1", "none", "amb", "none", "VS-17 Panels", "U.S.", "None");
+        Request request = new Request(1L, "32UPA1234567890", "12345", 1, "Urgent", "none", 1, 2, "none", "VS-17 Panels", "U.S.", "None");
         //Act
         when(requestService.createRequest(any(Request.class))).thenReturn(request);
         //Assert
