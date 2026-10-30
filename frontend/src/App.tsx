@@ -8,7 +8,7 @@ import Requester from "./pages/Requester.tsx";
 import Dispatcher from "./pages/Dispatcher.tsx";
 
 function App() {
-    const [count, setCount] = useState(0)
+    // const [count, setCount] = useState(0)
 
     return (
         <>
