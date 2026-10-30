@@ -36,7 +36,7 @@ public class RequestService {
         }
         Request currentRequest = requestOptional.get();
         currentRequest.setLocation(request.getLocation());
-        currentRequest.setRadiofreq(request.getRadiofreq());
+        currentRequest.setRadioFreq(request.getRadioFreq());
         currentRequest.setPatientPrecedence(request.getPatientPrecedence());
         currentRequest.setPatientNumber(request.getPatientNumber());
         currentRequest.setPatientPrecedence(request.getPatientPrecedence());

@@ -2,31 +2,31 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 
 interface MedevacFormData {
   location: string;
-  callSign: string;
+  radioFreq: string;
   patientNumber: number | "";
-  precedence: string;
+  patientPrecedence: string;
   specialEquipment: {
     none: boolean;
     hoist: boolean;
     extractionEquipment: boolean;
     ventilator: boolean;
   };
-  litterPatients: number | "";
-  ambulatoryPatients: number | "";
-  security: string;
-  methodOfPickup: {
+  patientLitter: number | "";
+  patientAmbulatory: number | "";
+  siteSecurity: string;
+  siteMarking: {
     panels: boolean;
     pyrotechnicSignal: boolean;
     smokeSignal: boolean;
     none: boolean;
     other: boolean;
   };
-  patientNationalityAndStatus: string;
-  nbcContamination: string;
+  patientNationalityStatus: string;
+  terrainDescription: string;
 }
 
 type FormErrors = Partial<Record<keyof MedevacFormData, string>>;
-type CheckboxSection = "specialEquipment" | "methodOfPickup";
+type CheckboxSection = "specialEquipment" | "siteMarking";
 
 const specialEquipmentOptions: {
   name: keyof MedevacFormData["specialEquipment"];
@@ -39,7 +39,7 @@ const specialEquipmentOptions: {
 ];
 
 const pickupOptions: {
-  name: keyof MedevacFormData["methodOfPickup"];
+  name: keyof MedevacFormData["siteMarking"];
   label: string;
 }[] = [
   { name: "panels", label: "Panels" },
@@ -84,25 +84,25 @@ function validateForm(data: MedevacFormData): FormErrors {
 
   if (!data.location.trim()) errors.location = "Required Field";
   else if(!validateMGRS(data.location)) errors.location="Must be in MGRS Format";
-  if (!data.callSign.trim()) errors.callSign = "Required Field";
+  if (!data.radioFreq.trim()) errors.radioFreq = "Required Field";
   if (data.patientNumber === "" || data.patientNumber < 1) {
     errors.patientNumber = "Enter at least 1 patient";
   }
-  if (!data.precedence) errors.precedence = "Required Field";
+  if (!data.patientPrecedence) errors.patientPrecedence = "Required Field";
   if (!Object.values(data.specialEquipment).some(Boolean)) {
     errors.specialEquipment = "Select at least one option";
   }
   // 0 is a valid patient-type count, but the user must select it explicitly.
-  if (data.litterPatients === "") errors.litterPatients = "Required Field";
-  if (data.ambulatoryPatients === "") errors.ambulatoryPatients = "Required Field";
-  if (!data.security) errors.security = "Required Field";
-  if (!Object.values(data.methodOfPickup).some(Boolean)) {
-    errors.methodOfPickup = "Select at least one option";
+  if (data.patientLitter === "") errors.patientLitter = "Required Field";
+  if (data.patientAmbulatory === "") errors.patientAmbulatory = "Required Field";
+  if (!data.siteSecurity) errors.siteSecurity = "Required Field";
+  if (!Object.values(data.siteMarking).some(Boolean)) {
+    errors.siteMarking = "Select at least one option";
   }
-  if (!data.patientNationalityAndStatus) {
-    errors.patientNationalityAndStatus = "Required Field";
+  if (!data.patientNationalityStatus) {
+    errors.patientNationalityStatus = "Required Field";
   }
-  if (!data.nbcContamination) errors.nbcContamination = "Required Field";
+  if (!data.terrainDescription) errors.terrainDescription = "Required Field";
 
   return errors;
 }
@@ -110,27 +110,27 @@ function validateForm(data: MedevacFormData): FormErrors {
 export function MedevacForm() {
   const [formData, setFormData] = useState<MedevacFormData>({
     location: "",
-    callSign: "",
+    radioFreq: "",
     patientNumber: "",
-    precedence: "",
+    patientPrecedence: "",
     specialEquipment: {
       none: false,
       hoist: false,
       extractionEquipment: false,
       ventilator: false,
     },
-    litterPatients: "",
-    ambulatoryPatients: "",
-    security: "",
-    methodOfPickup: {
+    patientLitter: "",
+    patientAmbulatory: "",
+    siteSecurity: "",
+    siteMarking: {
       panels: false,
       pyrotechnicSignal: false,
       smokeSignal: false,
       none: false,
       other: false,
     },
-    patientNationalityAndStatus: "",
-    nbcContamination: "",
+    patientNationalityStatus: "",
+    terrainDescription: "",
   });
 
   const [showErrors, setShowErrors] = useState(false);
@@ -140,7 +140,7 @@ export function MedevacForm() {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.currentTarget;
-    const isNumber = ["patientNumber", "litterPatients", "ambulatoryPatients"].includes(name);
+    const isNumber = ["patientNumber", "patientLitter", "patientAmbulatory"].includes(name);
 
     setFormData((previous) => ({
       ...previous,
@@ -183,10 +183,11 @@ export function MedevacForm() {
 
     // UI demonstration only: do not send or store sensitive details in a console.
     try {
+      console.log(formData);
       const requestBody = {
         ...formData,
         specialEquipment: JSON.stringify(formData.specialEquipment),
-        methodOfPickup: JSON.stringify(formData.methodOfPickup),
+        siteMarking: JSON.stringify(formData.siteMarking),
       }
 
       console.log(requestBody);
@@ -241,26 +242,26 @@ export function MedevacForm() {
 
         {/* Radio frequency / call sign */}
         <div className="min-w-0">
-          <div className={fieldClass(errors.callSign)}>
-            <label htmlFor="callSign" className={fieldLabel}>
+          <div className={fieldClass(errors.radioFreq)}>
+            <label htmlFor="radioFreq" className={fieldLabel}>
               Radio Frequency/ Call Sign / Suffix
             </label>
             <input
-              id="callSign"
-              name="callSign"
+              id="radioFreq"
+              name="radioFreq"
               type="text"
-              value={formData.callSign}
+              value={formData.radioFreq}
               onChange={handleInputChange}
               placeholder="(Call Sign)"
               className={fieldControl}
-              aria-invalid={Boolean(errors.callSign)}
-              aria-describedby={errors.callSign ? "callSign-error" : undefined}
+              aria-invalid={Boolean(errors.radioFreq)}
+              aria-describedby={errors.radioFreq ? "radioFreq-error" : undefined}
             />
           </div>
-          <FieldError id="callSign-error" message={errors.callSign} />
+          <FieldError id="radioFreq-error" message={errors.radioFreq} />
         </div>
 
-        {/* Patient count and precedence */}
+        {/* Patient count and patientPrecedence */}
         <div className="flex items-start gap-[10px]">
           <div className="min-w-0 flex-1">
             <div className={fieldClass(errors.patientNumber)}>
@@ -282,16 +283,16 @@ export function MedevacForm() {
           </div>
 
           <div className="min-w-0 flex-[2]">
-            <div className={fieldClass(errors.precedence)}>
-              <label htmlFor="precedence" className={fieldLabel}>Precedence</label>
+            <div className={fieldClass(errors.patientPrecedence)}>
+              <label htmlFor="patientPrecedence" className={fieldLabel}>Precedence</label>
               <select
-                id="precedence"
-                name="precedence"
-                value={formData.precedence}
+                id="patientPrecedence"
+                name="patientPrecedence"
+                value={formData.patientPrecedence}
                 onChange={handleInputChange}
                 className={`${fieldControl} cursor-pointer`}
-                aria-invalid={Boolean(errors.precedence)}
-                aria-describedby={errors.precedence ? "precedence-error" : undefined}
+                aria-invalid={Boolean(errors.patientPrecedence)}
+                aria-describedby={errors.patientPrecedence ? "patientPrecedence-error" : undefined}
               >
                 <option value="">Select Precedence...</option>
                 <option value="Urgent">Urgent</option>
@@ -300,7 +301,7 @@ export function MedevacForm() {
                 <option value="Routine">Routine</option>
               </select>
             </div>
-            <FieldError id="precedence-error" message={errors.precedence} />
+            <FieldError id="patientPrecedence-error" message={errors.patientPrecedence} />
           </div>
         </div>
 
@@ -327,16 +328,16 @@ export function MedevacForm() {
         {/* Litter and ambulatory counts */}
         <div className="flex items-start gap-[10px]">
           <div className="min-w-0 flex-1">
-            <div className={fieldClass(errors.litterPatients)}>
-              <label htmlFor="litterPatients" className={fieldLabel}>Litter Patient #</label>
+            <div className={fieldClass(errors.patientLitter)}>
+              <label htmlFor="patientLitter" className={fieldLabel}>Litter Patient #</label>
               <select
-                id="litterPatients"
-                name="litterPatients"
-                value={formData.litterPatients}
+                id="patientLitter"
+                name="patientLitter"
+                value={formData.patientLitter}
                 onChange={handleInputChange}
                 className={`${fieldControl} cursor-pointer`}
-                aria-invalid={Boolean(errors.litterPatients)}
-                aria-describedby={errors.litterPatients ? "litterPatients-error" : undefined}
+                aria-invalid={Boolean(errors.patientLitter)}
+                aria-describedby={errors.patientLitter ? "patientLitter-error" : undefined}
               >
                 <option value="">Select count...</option>
                 {Array.from({ length: 11 }, (_, count) => (
@@ -344,19 +345,19 @@ export function MedevacForm() {
                 ))}
               </select>
             </div>
-            <FieldError id="litterPatients-error" message={errors.litterPatients} />
+            <FieldError id="patientLitter-error" message={errors.patientLitter} />
           </div>
           <div className="min-w-0 flex-1">
-            <div className={fieldClass(errors.ambulatoryPatients)}>
-              <label htmlFor="ambulatoryPatients" className={fieldLabel}>Ambulatory Patient #</label>
+            <div className={fieldClass(errors.patientAmbulatory)}>
+              <label htmlFor="patientAmbulatory" className={fieldLabel}>Ambulatory Patient #</label>
               <select
-                id="ambulatoryPatients"
-                name="ambulatoryPatients"
-                value={formData.ambulatoryPatients}
+                id="patientAmbulatory"
+                name="patientAmbulatory"
+                value={formData.patientAmbulatory}
                 onChange={handleInputChange}
                 className={`${fieldControl} cursor-pointer`}
-                aria-invalid={Boolean(errors.ambulatoryPatients)}
-                aria-describedby={errors.ambulatoryPatients ? "ambulatoryPatients-error" : undefined}
+                aria-invalid={Boolean(errors.patientAmbulatory)}
+                aria-describedby={errors.patientAmbulatory ? "patientAmbulatory-error" : undefined}
               >
                 <option value="">Select count...</option>
                 {Array.from({ length: 11 }, (_, count) => (
@@ -364,24 +365,24 @@ export function MedevacForm() {
                 ))}
               </select>
             </div>
-            <FieldError id="ambulatoryPatients-error" message={errors.ambulatoryPatients} />
+            <FieldError id="patientAmbulatory-error" message={errors.patientAmbulatory} />
           </div>
         </div>
 
         {/* Security */}
         <div className="min-w-0">
-          <div className={fieldClass(errors.security)}>
-            <label htmlFor="security" className={fieldLabel}>Security at Pick-Up Site</label>
+          <div className={fieldClass(errors.siteSecurity)}>
+            <label htmlFor="siteSecurity" className={fieldLabel}>Security at Pick-Up Site</label>
             <select
-              id="security"
-              name="security"
-              value={formData.security}
+              id="siteSecurity"
+              name="siteSecurity"
+              value={formData.siteSecurity}
               onChange={handleInputChange}
               className={`${fieldControl} cursor-pointer`}
-              aria-invalid={Boolean(errors.security)}
-              aria-describedby={errors.security ? "security-error" : undefined}
+              aria-invalid={Boolean(errors.siteSecurity)}
+              aria-describedby={errors.siteSecurity ? "siteSecurity-error" : undefined}
             >
-              <option value="">Select security status...</option>
+              <option value="">Select siteSecurity status...</option>
               <option value="No enemy troops in area">No enemy troops in area</option>
               <option value="Possible enemy troops in area">Possible enemy troops in area</option>
               <option value="Enemy troops in area (approach with caution)">
@@ -392,12 +393,12 @@ export function MedevacForm() {
               </option>
             </select>
           </div>
-          <FieldError id="security-error" message={errors.security} />
+          <FieldError id="siteSecurity-error" message={errors.siteSecurity} />
         </div>
 
         {/* Pick-up site marking */}
-        <fieldset className="-mt-[2px] min-w-0 border-0 p-0" aria-describedby={errors.methodOfPickup ? "methodOfPickup-error" : undefined}>
-          <legend className={`${groupLegend} ${errors.methodOfPickup ? "text-[#c94545]" : ""}`}>
+        <fieldset className="-mt-[2px] min-w-0 border-0 p-0" aria-describedby={errors.siteMarking ? "siteMarking-error" : undefined}>
+          <legend className={`${groupLegend} ${errors.siteMarking ? "text-[#c94545]" : ""}`}>
             Method of Marking Pick-up Site
           </legend>
           {pickupOptions.map(({ name, label }) => (
@@ -405,30 +406,30 @@ export function MedevacForm() {
               <input
                 type="checkbox"
                 name={name}
-                checked={formData.methodOfPickup[name]}
-                onChange={(event) => handleCheckboxChange("methodOfPickup", event)}
+                checked={formData.siteMarking[name]}
+                onChange={(event) => handleCheckboxChange("siteMarking", event)}
                 className={checkboxInput}
               />
               {label}
             </label>
           ))}
-          <FieldError id="methodOfPickup-error" message={errors.methodOfPickup} />
+          <FieldError id="siteMarking-error" message={errors.siteMarking} />
         </fieldset>
 
         {/* Patient nationality and status */}
         <div className="min-w-0">
-          <div className={fieldClass(errors.patientNationalityAndStatus)}>
-            <label htmlFor="patientNationalityAndStatus" className={fieldLabel}>
+          <div className={fieldClass(errors.patientNationalityStatus)}>
+            <label htmlFor="patientNationalityStatus" className={fieldLabel}>
               Patient Nationality and Status
             </label>
             <select
-              id="patientNationalityAndStatus"
-              name="patientNationalityAndStatus"
-              value={formData.patientNationalityAndStatus}
+              id="patientNationalityStatus"
+              name="patientNationalityStatus"
+              value={formData.patientNationalityStatus}
               onChange={handleInputChange}
               className={`${fieldControl} cursor-pointer`}
-              aria-invalid={Boolean(errors.patientNationalityAndStatus)}
-              aria-describedby={errors.patientNationalityAndStatus ? "nationality-error" : undefined}
+              aria-invalid={Boolean(errors.patientNationalityStatus)}
+              aria-describedby={errors.patientNationalityStatus ? "nationality-error" : undefined}
             >
               <option value="">Select nationality/status...</option>
               <option value="US Military">US Military</option>
@@ -438,21 +439,21 @@ export function MedevacForm() {
               <option value="Enemy Prisoner of War">Enemy Prisoner of War</option>
             </select>
           </div>
-          <FieldError id="nationality-error" message={errors.patientNationalityAndStatus} />
+          <FieldError id="nationality-error" message={errors.patientNationalityStatus} />
         </div>
 
         {/* NBC contamination */}
         <div className="min-w-0">
-          <div className={fieldClass(errors.nbcContamination)}>
-            <label htmlFor="nbcContamination" className={fieldLabel}>NBC Contamination</label>
+          <div className={fieldClass(errors.terrainDescription)}>
+            <label htmlFor="terrainDescription" className={fieldLabel}>NBC Contamination</label>
             <select
-              id="nbcContamination"
-              name="nbcContamination"
-              value={formData.nbcContamination}
+              id="terrainDescription"
+              name="terrainDescription"
+              value={formData.terrainDescription}
               onChange={handleInputChange}
               className={`${fieldControl} cursor-pointer`}
-              aria-invalid={Boolean(errors.nbcContamination)}
-              aria-describedby={errors.nbcContamination ? "nbcContamination-error" : undefined}
+              aria-invalid={Boolean(errors.terrainDescription)}
+              aria-describedby={errors.terrainDescription ? "terrainDescription-error" : undefined}
             >
               <option value="">Select contamination status...</option>
               <option value="None">None</option>
@@ -462,7 +463,7 @@ export function MedevacForm() {
               <option value="Unknown">Unknown</option>
             </select>
           </div>
-          <FieldError id="nbcContamination-error" message={errors.nbcContamination} />
+          <FieldError id="terrainDescription-error" message={errors.terrainDescription} />
         </div>
 
         <div className="flex justify-end">

@@ -44,7 +44,7 @@ public class RequestController {
         Request changes;
         changes = requestService.getRequestById(id);
         changes.setLocation(request.getLocation());
-        changes.setRadiofreq(request.getRadiofreq());
+        changes.setRadioFreq(request.getRadioFreq());
         changes.setPatientNumber(request.getPatientNumber());
         changes.setPatientPrecedence(request.getPatientPrecedence());
         changes.setSpecialEquipment(request.getSpecialEquipment());

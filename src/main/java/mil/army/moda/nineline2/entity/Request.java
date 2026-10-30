@@ -27,7 +27,7 @@ public class Request {
     // Line 2: Radio frequency, call sign, and suffix
     @NotBlank
     @Column(nullable = false)
-    private String radiofreq;
+    private String radioFreq;
 
     // Line 3a: # of Patients
     @NotNull
@@ -94,12 +94,12 @@ public class Request {
         this.location = location;
     }
 
-    public String getRadiofreq() {
-        return radiofreq;
+    public String getRadioFreq() {
+        return radioFreq;
     }
 
-    public void setRadiofreq(String radiofreq) {
-        this.radiofreq = radiofreq;
+    public void setRadioFreq(String radioFreq) {
+        this.radioFreq = radioFreq;
     }
 
     public Integer getPatientNumber() {
@@ -179,7 +179,7 @@ public class Request {
         return "Request{" +
                 "id=" + id +
                 ", location='" + location + '\'' +
-                ", radiofreq='" + radiofreq + '\'' +
+                ", radioFreq='" + radioFreq + '\'' +
                 ", patientNumber=" + patientNumber +
                 ", patientPrecedence='" + patientPrecedence + '\'' +
                 ", specialEquipment='" + specialEquipment + '\'' +
