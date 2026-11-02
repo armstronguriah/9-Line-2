@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/requests")
@@ -39,21 +40,9 @@ public class RequestController {
         return ResponseEntity.ok(requestService.getRequestById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Request> updateRequest(@Valid @PathVariable("id") Long id, @RequestBody Request request) {
-        Request changes;
-        changes = requestService.getRequestById(id);
-        changes.setLocation(request.getLocation());
-        changes.setRadioFreq(request.getRadioFreq());
-        changes.setPatientNumber(request.getPatientNumber());
-        changes.setPatientPrecedence(request.getPatientPrecedence());
-        changes.setSpecialEquipment(request.getSpecialEquipment());
-        changes.setPatientLitter(request.getPatientLitter());
-        changes.setPatientAmbulatory(request.getPatientAmbulatory());
-        changes.setSiteSecurity(request.getSiteSecurity());
-        changes.setSiteMarking(request.getSiteMarking());
-        changes.setPatientNationalityStatus(request.getPatientNationalityStatus());
-        changes.setTerrainDescription(request.getTerrainDescription());
-        return ResponseEntity.of(requestService.updateRequest(id, changes));
+    @PatchMapping("/{id}")
+    public ResponseEntity<Optional<Request>> updateRequest(@PathVariable Long id, @RequestBody Request request) {
+
+        return ResponseEntity.ok(requestService.updateRequest(id, request));
     }
 }

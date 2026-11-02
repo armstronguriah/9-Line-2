@@ -10,9 +10,14 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.json.JsonMapper;
 
+import java.util.List;
+import java.util.Optional;
+
 import static mil.army.moda.nineline2.controller.RequestBuilder.request;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RequestController.class)
@@ -59,14 +64,75 @@ class RequestControllerTest {
     }
 
     @Test
-    void getAllRequests() {
+    void getAllRequests() throws Exception {
+        List<Request> allRequests = List.of(request().withId(3L).build(),  request().withId(45L).build());
 
+        when(requestService.getAllRequests()).thenReturn(allRequests);
 
+        mockMvc.perform(get("/api/requests")
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
-
+        verify(requestService, times(1)).getAllRequests();
     }
 
     @Test
-    void getRequestById() {
+    void getRequestById() throws Exception {
+
+        var requestById=request()
+                .withId(1L)
+                .build();
+
+        when(requestService.getRequestById(anyLong())).thenReturn(requestById);
+
+        mockMvc.perform(get("/api/requests/" + requestById.getId()))
+
+                .andExpect(status().isOk());
+
+        verify(requestService, times(1)).getRequestById(anyLong());
+
+    }
+    @Test
+    void updateRequest() throws Exception {
+        var existingRequest=request()
+                .withId(1L)
+                .withLocation("32UPA1234567890")
+                .withPatientNationalityStatus("US")
+                .withPatientNumber(1)
+                .withPatientPrecedence("URG")
+                .withRadioFreq("3445")
+                .withSiteMarking("Panels")
+                .withSiteSecurity("yes")
+                .withTerrainDescription("mountains")
+                .withPatientLitter(1)
+                .withPatientAmbulatory(2)
+                .withSpecialEquipment("none")
+                .build();
+        var updateRequest=request()
+                .withId(1L)
+                .withLocation("32UPA123450000")
+                .withPatientNationalityStatus("US")
+                .withPatientNumber(1)
+                .withPatientPrecedence("URG")
+                .withRadioFreq("3445")
+                .withSiteMarking("Panels")
+                .withSiteSecurity("yes")
+                .withTerrainDescription("mountains")
+                .withPatientLitter(1)
+                .withPatientAmbulatory(2)
+                .withSpecialEquipment("none")
+                .build();
+
+        when(requestService.updateRequest(eq(1L),any(Request.class))).thenReturn(Optional.ofNullable(updateRequest));
+
+
+        mockMvc.perform(patch("/api/requests/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonMapper.writeValueAsString(existingRequest)))
+                        .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.location").value(matchesPattern("32UPA123450000")));
+
+        verify(requestService, times(1)).updateRequest(any(), any(Request.class));
+
     }
 }
