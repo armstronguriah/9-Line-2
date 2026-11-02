@@ -10,7 +10,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.json.JsonMapper;
 
-import static org.mockito.ArgumentMatchers.any;
+import static mil.army.moda.nineline2.controller.RequestBuilder.request;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,8 +30,23 @@ class RequestControllerTest {
 
     @Test
     void createRequest() throws Exception {
+
+        var request=request()
+                .withId(1L)
+                .withLocation("32UPA1234567890")
+                .withPatientNationalityStatus("US")
+                .withPatientNumber(1)
+                .withPatientPrecedence("URG")
+                .withRadioFreq("3445")
+                .withSiteMarking("Panels")
+                .withSiteSecurity("yes")
+                .withTerrainDescription("mountains")
+                .withPatientLitter(1)
+                .withPatientAmbulatory(2)
+                .withSpecialEquipment("none")
+                .build();
         //Arrange
-        Request request = new Request(1L, "32UPA1234567890", "12345", 1, "Urgent", "none", 1, 2, "none", "VS-17 Panels", "U.S.", "None");
+    //  Request request = new Request(1L, "32UPA1234567890", "12345", 1, "Urgent", "none", 1, 2, "none", "VS-17 Panels", "U.S.", "None");
         //Act
         when(requestService.createRequest(any(Request.class))).thenReturn(request);
         //Assert
@@ -40,14 +55,11 @@ class RequestControllerTest {
                 .content(jsonMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
-        verify(requestService, times(1))
-        .createRequest(any(Request.class));
+        verify(requestService, times(1)).createRequest(any(Request.class));
     }
 
     @Test
     void getAllRequests() {
-
-
 
 
 

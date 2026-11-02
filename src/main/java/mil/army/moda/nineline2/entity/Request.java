@@ -6,11 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "medevac_request")
 public class Request {
@@ -74,121 +77,25 @@ public class Request {
     @Column(nullable = false)
     private String terrainDescription;
 
-    public Request() {
+    // public Request(Long id, String location, String radioFreq, Integer patientNumber, String patientPrecedence, String patientNationalityStatus, String siteMarking, String siteSecurity, String terrainDescription, Integer patientLitter, Integer patientAmbulatory, String specialEquipment) {
 
-    }
+//}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getRadioFreq() {
-        return radioFreq;
-    }
-
-    public void setRadioFreq(String radioFreq) {
-        this.radioFreq = radioFreq;
-    }
-
-    public Integer getPatientNumber() {
-        return patientNumber;
-    }
-
-    public void setPatientNumber(Integer patientNumber) {
-        this.patientNumber = patientNumber;
-    }
-
-    public String getPatientPrecedence() {
-        return patientPrecedence;
-    }
-
-    public void setPatientPrecedence(String patientPrecedence) {
-        this.patientPrecedence = patientPrecedence;
-    }
-
-    public String getSpecialEquipment() {
-        return specialEquipment;
-    }
-
-    public void setSpecialEquipment(String specialEquipment) {
-        this.specialEquipment = specialEquipment;
-    }
-
-    public Integer getPatientLitter() {
-        return patientLitter;
-    }
-
-    public void setPatientLitter(Integer patientLitter) {
-        this.patientLitter = patientLitter;
-    }
-
-    public Integer getPatientAmbulatory() {
-        return patientAmbulatory;
-    }
-
-    public void setPatientAmbulatory(Integer patientAmbulatory) {
-        this.patientAmbulatory = patientAmbulatory;
-    }
-
-    public String getSiteSecurity() {
-        return siteSecurity;
-    }
-
-    public void setSiteSecurity(String siteSecurity) {
-        this.siteSecurity = siteSecurity;
-    }
-
-    public String getSiteMarking() {
-        return siteMarking;
-    }
-
-    public void setSiteMarking(String siteMarking) {
-        this.siteMarking = siteMarking;
-    }
-
-    public String getPatientNationalityStatus() {
-        return patientNationalityStatus;
-    }
-
-    public void setPatientNationalityStatus(String patientNationalityStatus) {
-        this.patientNationalityStatus = patientNationalityStatus;
-    }
-
-    public String getTerrainDescription() {
-        return terrainDescription;
-    }
-
-    public void setTerrainDescription(String terrainDescription) {
-        this.terrainDescription = terrainDescription;
-    }
-
-    @Override
-    public String toString() {
-        return "Request{" +
-                "id=" + id +
-                ", location='" + location + '\'' +
-                ", radioFreq='" + radioFreq + '\'' +
-                ", patientNumber=" + patientNumber +
-                ", patientPrecedence='" + patientPrecedence + '\'' +
-                ", specialEquipment='" + specialEquipment + '\'' +
-                ", patientLitter=" + patientLitter +
-                ", patientAmbulatory=" + patientAmbulatory +
-                ", siteSecurity='" + siteSecurity + '\'' +
-                ", siteMarking='" + siteMarking + '\'' +
-                ", patientNationalityStatus='" + patientNationalityStatus + '\'' +
-                ", terrainDescription='" + terrainDescription + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Request{" +
+//                "id=" + id +
+//                ", location='" + location + '\'' +
+//                ", radioFreq='" + radioFreq + '\'' +
+//                ", patientNumber=" + patientNumber +
+//                ", patientPrecedence='" + patientPrecedence + '\'' +
+//                ", specialEquipment='" + specialEquipment + '\'' +
+//                ", patientLitter=" + patientLitter +
+//                ", patientAmbulatory=" + patientAmbulatory +
+//                ", siteSecurity='" + siteSecurity + '\'' +
+//                ", siteMarking='" + siteMarking + '\'' +
+//                ", patientNationalityStatus='" + patientNationalityStatus + '\'' +
+//                ", terrainDescription='" + terrainDescription + '\'' +
+//                '}';
+//    }
 }
