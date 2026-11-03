@@ -23,6 +23,7 @@ export default function RequestRow({ request, parseJSONField }: RequestRowProps)
 
     return (
         <>
+
             <tr onClick={() => setIsExpanded(!isExpanded)} style={{ cursor: "pointer" }}>
                 <td>{isExpanded ? "[-]" : "[+]"}</td>
                 <td>{request.patientPrecedence}</td>
@@ -35,6 +36,7 @@ export default function RequestRow({ request, parseJSONField }: RequestRowProps)
 
             {isExpanded && (
                 <tr>
+                    <td> <input type = "checkbox"/> </td>
                     <td colSpan={7}>
                         <div>
                             <p><strong>Full Details for Request #{request.id}</strong></p>

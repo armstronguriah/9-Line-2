@@ -209,7 +209,8 @@ export function MedevacForm() {
     catch (error) {
       setSubmitted(false);
     }
-    setSubmitted(true);
+    setSubmitted(true)
+    
 
   };
 

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import "@testing-library/jest-dom";
 import RequestRow from "../../components/RequestRow.tsx";
 import {beforeEach, expect} from "vitest";
@@ -47,3 +47,7 @@ test("renders the request information", () => {
     expect(screen.getAllByText("Hoist")).toBeInTheDocument();
     expect(screen.getAllByText("Logged")).toBeInTheDocument();
 });})
+
+it('should allow user to change status', () => {
+    
+}); 
