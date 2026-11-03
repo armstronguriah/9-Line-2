@@ -20,6 +20,13 @@ interface RequestRowProps {
 
 export default function RequestRow({ request, parseJSONField }: RequestRowProps) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
+    const handleDelete=() => {
+        console.log("Delete Request", request.id);
+    }
+    const sendToDipatcher = () => {
+        console.log("Sending request", request.id);
+    }
 
     return (
         <>
@@ -36,8 +43,22 @@ export default function RequestRow({ request, parseJSONField }: RequestRowProps)
 
             {isExpanded && (
                 <tr>
-                    <td> <input type = "checkbox"/> </td>
-                    <td colSpan={7}>
+                    <td> <input type = "checkbox"
+                    checked={isSelected} onChange={(event)=>setIsSelected(event.target.checked)}/>
+                    </td>
+                    <td>{isSelected && (
+                        <div>
+                            <button onClick={handleDelete}>
+                                Delete?
+                            </button>
+                            <button onClick={sendToDipatcher}>
+                                Send To Dispatcher?
+                            </button>
+                        </div>)}
+                    </td>
+                    <td
+
+                        colSpan={7}>
                         <div>
                             <p><strong>Full Details for Request #{request.id}</strong></p>
                             <p>Patients: {request.patientNumber} (Litter: {request.patientLitter}, Ambulatory: {request.patientAmbulatory})</p>
