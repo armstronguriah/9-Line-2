@@ -135,4 +135,19 @@ class RequestControllerTest {
         verify(requestService, times(1)).updateRequest(any(), any(Request.class));
 
     }
-}
+    @Test
+    void deleteRequestByID() throws Exception {
+        var requestById = request()
+                .withId(1L)
+                .build();
+
+      //  when(requestService.removeRequestByID(anyLong()));
+
+        mockMvc.perform(delete("/api/requests/" + requestById.getId())
+              .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonMapper.writeValueAsString(1L)))
+                        .andExpect(status().isNoContent());
+
+        verify(requestService, times(1)).removeRequestByID(anyLong());
+    }}
+

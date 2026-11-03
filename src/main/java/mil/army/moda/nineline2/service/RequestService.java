@@ -50,4 +50,7 @@ public class RequestService {
         Request savedRequest = requestRepository.save(currentRequest);
         return Optional.of (savedRequest);
     }
+    public void removeRequestByID(Long id) {
+        requestRepository.deleteById(id);
+    }
 }

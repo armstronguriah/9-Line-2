@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
 
-
-
-
+    Request removeRequestById(Long id);
 }
 
 
