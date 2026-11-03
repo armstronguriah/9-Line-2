@@ -1,53 +1,40 @@
 import { render, screen } from '@testing-library/react';
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom/vitest";
 import RequestRow from "../../components/RequestRow.tsx";
-import {beforeEach, expect} from "vitest";
+import {describe, expect, it} from "vitest";
+import {userEvent} from "@testing-library/user-event/dist/cjs/setup/index.js";
 
+describe ('RequestRow', () => {
+    it('should check the checekbox when clicked', async () => {
+    const user = userEvent.setup();
+    render  (<RequestRow request={{
+        id: 0,
+        location: "",
+        radioFreq: "",
+        patientNumber: 0,
+        patientPrecedence: "",
+        specialEquipment: "",
+        patientLitter: 0,
+        patientAmbulatory: 0,
+        siteSecurity: "",
+        siteMarking: "",
+        patientNationalityStatus: "",
+        terrainDescription: ""
+    }} parseJSONField={(val: string) => val}
+        
+    />);
 
-describe ("RequestRow", () => {
-    const mockRequest = {
-        id: 1,
-        location: "32U CD 1234567890",
-        radioFreq: "re7890",
-        patientNumber: 3,
-        patientPrecedence: "Urgent",
-        specialEquipment: "None: true",
-        patientLitter: 1,
-        patientAmbulatory: 2,
-        siteSecurity: "Enemy Troops In Area: true",
-        siteMarking: "Panel: true",
-        patientNationalityStatus: "US Military: True",
-        terrainDescription: "NBC: true",
-    };
-    let jst;
-    // @ts-ignore
-    const mockparseJSONField = jst.fn((value: string) => {
-    if (value === mockRequest.specialEquipment) return "Hoist";
-    return value;
-});
-    const renderComponent = () =>
-        render(
-            <table>
-                <tbody>
-                <RequestRow request={mockRequest} parseJSONField={mockparseJSONField} />
-                </tbody>
-            </table>
-        );
+        const expandToggle = screen.getByText('[+]');
+        await user.click(expandToggle);
 
-    beforeEach(() => {
-        mockparseJSONField.mockClear();
+        const checkbox = screen.getByRole('checkbox', {name: /checekbox/i});
+        expect(screen.getByRole("checkbox",{checked:false})).not.toBeChecked();
+        await user.click(checkbox);
+        expect(checkbox).toBeChecked();
+
     });
-test("renders the request information", () => {
-    renderComponent();
+});
 
-    expect(screen.getByText("URGENT")).toBeInTheDocument();
-    expect(screen.getByText(mockRequest.location)).toBeInTheDocument();
-    expect(screen.getAllByText("40.500")).toBeInTheDocument();
-    expect(screen.getAllByText("SECURE")).toBeInTheDocument();
-    expect(screen.getAllByText("Hoist")).toBeInTheDocument();
-    expect(screen.getAllByText("Logged")).toBeInTheDocument();
-});})
 
-it('should allow user to change status', () => {
-    
-}); 
+
+// it('should allow user to change status', () => {})

@@ -43,29 +43,29 @@ export default function RequestRow({ request, parseJSONField }: RequestRowProps)
 
             {isExpanded && (
                 <tr>
-                    <td> <input type = "checkbox"
+                    <td> <input type = "checkbox" name="checkbox"
                     checked={isSelected} onChange={(event)=>setIsSelected(event.target.checked)}/>
                     </td>
                     <td>{isSelected && (
-                        <div>
+                        <>
                             <button onClick={handleDelete}>
                                 Delete?
                             </button>
                             <button onClick={sendToDipatcher}>
                                 Send To Dispatcher?
                             </button>
-                        </div>)}
+                        </>)}
                     </td>
                     <td
 
                         colSpan={7}>
-                        <div>
+                        <>
                             <p><strong>Full Details for Request #{request.id}</strong></p>
                             <p>Patients: {request.patientNumber} (Litter: {request.patientLitter}, Ambulatory: {request.patientAmbulatory})</p>
                             <p>Nationality/Status: {request.patientNationalityStatus}</p>
                             <p>Terrain: {request.terrainDescription}</p>
                             <p>Site Marking: {parseJSONField(request.siteMarking)}</p>
-                        </div>
+                        </>
                     </td>
                 </tr>
             )}
