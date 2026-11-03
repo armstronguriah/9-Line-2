@@ -45,4 +45,11 @@ public class RequestController {
 
         return ResponseEntity.ok(requestService.updateRequest(id, request));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
+        requestService.removeRequestByID(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

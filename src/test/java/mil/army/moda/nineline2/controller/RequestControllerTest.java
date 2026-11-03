@@ -146,7 +146,7 @@ class RequestControllerTest {
         mockMvc.perform(delete("/api/requests/" + requestById.getId())
               .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonMapper.writeValueAsString(1L)))
-                        .andExpect(status().isNoContent());
+                .andExpect(status().isNoContent());
 
         verify(requestService, times(1)).removeRequestByID(anyLong());
     }}
