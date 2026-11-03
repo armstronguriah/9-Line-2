@@ -50,6 +50,15 @@ public class RequestController {
         requestService.removeRequestByID(id);
         return ResponseEntity.noContent().build();
     }
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Request> updateStatus(
+            @PathVariable Long id,
+            @RequestBody String status) {
 
+        var updatedRequest = requestService.updateStatus(id, status);
 
+        return updatedRequest
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -76,7 +76,13 @@ public class Request {
     @NotBlank
     @Column(nullable = false)
     private String terrainDescription;
-//     public Request(Long id, String location, String radioFreq, Integer patientNumber, String patientPrecedence, String patientNationalityStatus, String siteMarking, String siteSecurity, String terrainDescription, Integer patientLitter, Integer patientAmbulatory, String specialEquipment) {
+
+    @NotBlank
+    @Column(nullable = false)
+    private String status = "PENDING";
+
+
+    //     public Request(Long id, String location, String radioFreq, Integer patientNumber, String patientPrecedence, String patientNationalityStatus, String siteMarking, String siteSecurity, String terrainDescription, Integer patientLitter, Integer patientAmbulatory, String specialEquipment) {
 //
 //}
 

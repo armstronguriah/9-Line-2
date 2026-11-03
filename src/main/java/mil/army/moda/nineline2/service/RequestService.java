@@ -53,4 +53,18 @@ public class RequestService {
     public void removeRequestByID(Long id) {
         requestRepository.deleteById(id);
     }
+    public Optional<Request> updateStatus(Long id, String status) {
+
+        var request = requestRepository.findById(id);
+
+        if (request.isEmpty()) {
+            return Optional.empty();
+        }
+
+        var existingRequest = request.get();
+
+        existingRequest.setStatus(status);
+
+        return Optional.of(requestRepository.save(existingRequest));
+    }
 }
