@@ -15,6 +15,7 @@ public class RequestBuilder {
     private String siteMarking;
     private String patientNationalityStatus;
     private String terrainDescription;
+    private String status;
 
     private String status;
 

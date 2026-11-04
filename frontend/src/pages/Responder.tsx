@@ -1,21 +1,9 @@
 import { useState, useEffect } from "react";
 import RequestRow from "../components/RequestRow.tsx";
+import type {MedevacRequest} from "../components/MedevacRequest.ts";
 
 // Matches your Java Request Entity structure
-interface MedevacRequest {
-    id: number;
-    location: string;
-    radioFreq: string;
-    patientNumber: number;
-    patientPrecedence: string;
-    specialEquipment: string;
-    patientLitter: number;
-    patientAmbulatory: number;
-    siteSecurity: string;
-    siteMarking: string;
-    patientNationalityStatus: string;
-    terrainDescription: string;
-}
+
 
 export default function Responder() {
     const [requests, setRequests] = useState<MedevacRequest[]>([]);
@@ -73,7 +61,6 @@ export default function Responder() {
                         <th>Radio / Call Sign</th>
                         <th>Site Security</th>
                         <th>Special Equipment</th>
-                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
