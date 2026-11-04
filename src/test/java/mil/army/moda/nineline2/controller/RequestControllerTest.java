@@ -115,6 +115,7 @@ class RequestControllerTest {
                 .withPatientLitter(1)
                 .withPatientAmbulatory(2)
                 .withSpecialEquipment("none")
+                .withStatus("PENDING")
                 .build();
         var updateRequest=request()
                 .withId(1L)
@@ -129,6 +130,7 @@ class RequestControllerTest {
                 .withPatientLitter(1)
                 .withPatientAmbulatory(2)
                 .withSpecialEquipment("none")
+                .withStatus("ACTIVE")
                 .build();
 
         when(requestService.updateRequest(eq(1L),any(Request.class))).thenReturn(Optional.ofNullable(updateRequest));
