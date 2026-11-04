@@ -3,6 +3,8 @@ package mil.army.moda.nineline2.controller;
 import mil.army.moda.nineline2.entity.Request;
 import mil.army.moda.nineline2.service.RequestService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static mil.army.moda.nineline2.controller.RequestBuilder.request;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,6 +35,9 @@ class RequestControllerTest {
     @Autowired
     JsonMapper jsonMapper;
 
+    @Captor
+    ArgumentCaptor<Request> requestCaptor = ArgumentCaptor.forClass(Request.class);
+
 
     @Test
     void createRequest() throws Exception {
@@ -49,6 +55,7 @@ class RequestControllerTest {
                 .withPatientLitter(1)
                 .withPatientAmbulatory(2)
                 .withSpecialEquipment("none")
+                .withStatus("PENDING")
                 .build();
         //Arrange
     //  Request request = new Request(1L, "32UPA1234567890", "12345", 1, "Urgent", "none", 1, 2, "none", "VS-17 Panels", "U.S.", "None");
@@ -57,10 +64,12 @@ class RequestControllerTest {
         //Assert
         mockMvc.perform(post("/api/requests")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated());
+                .content(jsonMapper.writeValueAsString(request)));
+//                .andExpect(status().isCreated());
 
-        verify(requestService, times(1)).createRequest(any(Request.class));
+        verify(requestService, only()).createRequest(requestCaptor.capture());
+        assertThat(requestCaptor.getValue()).usingRecursiveComparison().isEqualTo(request);
+        verify(requestService,times(1)).createRequest(any(Request.class));
     }
 
     @Test

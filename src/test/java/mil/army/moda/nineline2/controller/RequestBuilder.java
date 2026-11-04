@@ -16,6 +16,8 @@ public class RequestBuilder {
     private String patientNationalityStatus;
     private String terrainDescription;
 
+    private String status;
+
 
     public static RequestBuilder request() {
         return new RequestBuilder();
@@ -80,6 +82,11 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder withStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
     public Request build() {
         return new Request(
                 this.id,
@@ -93,7 +100,8 @@ public class RequestBuilder {
                 this.siteSecurity,
                 this.siteMarking,
                 this.patientNationalityStatus,
-                this.terrainDescription);
+                this.terrainDescription,
+                this.status);
 
     }
 

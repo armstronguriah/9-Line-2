@@ -49,6 +49,7 @@ public class RequestController {
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
         requestService.removeRequestByID(id);
         return ResponseEntity.noContent().build();
+
     }
     @PatchMapping("/{id}/status")
     public ResponseEntity<Request> updateStatus(
