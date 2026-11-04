@@ -1,14 +1,31 @@
 import { useState } from "react";
-import type {MedevacRequest} from "./MedevacRequest.ts";
 
+interface RequestRowProps {
+    request: {
+        id: number;
+        location: string;
+        radioFreq: string;
+        patientNumber: number;
+        patientPrecedence: string;
+        specialEquipment: string;
+        patientLitter: number;
+        patientAmbulatory: number;
+        siteSecurity: string;
+        siteMarking: string;
+        patientNationalityStatus: string;
+        terrainDescription: string;
+        status: string;
+    };
+    parseJSONField: (val: string) => string;
+}
 
-export default function RequestRow(request: MedevacRequest) {
+export default function RequestRow({ request, parseJSONField }: RequestRowProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     const handleDelete=() => {
         console.log("Delete Request", request.id);
     }
-    const sendToDispatcher = () => {
+    const sendToDipatcher = () => {
         console.log("Sending request", request.id);
     }
 
@@ -21,25 +38,24 @@ export default function RequestRow(request: MedevacRequest) {
                 <td>{request.location}</td>
                 <td>{request.radioFreq}</td>
                 <td>{request.siteSecurity}</td>
-                <td>{request.specialEquipment}</td>
-                <td>{request.status}</td>
+                <td>{parseJSONField(request.specialEquipment)}</td>
+                <td>Logged</td>
             </tr>
 
             {isExpanded && (
                 <tr>
-                    <td> <input type="checkbox" name="checkbox"
+                    <td> <input type = "checkbox" name="checkbox"
                     checked={isSelected} onChange={(event)=>setIsSelected(event.target.checked)}/>
                     </td>
-                    <td> {isSelected && (
-
-                        <span>
-                            <button onClick={handleDelete} value={"Delete?"}> </button>
-
-
-                        <button onClick={sendToDispatcher} value={"Send To Dispatcher?"}> </button>
-
-                        </span>
-                        )}
+                    <td>{isSelected && (
+                        <>
+                            <button onClick={handleDelete}>
+                                Delete?
+                            </button>
+                            <button onClick={sendToDipatcher}>
+                                Send To Dispatcher?
+                            </button>
+                        </>)}
                     </td>
                     <td
 
@@ -49,11 +65,11 @@ export default function RequestRow(request: MedevacRequest) {
                             <p>Patients: {request.patientNumber} (Litter: {request.patientLitter}, Ambulatory: {request.patientAmbulatory})</p>
                             <p>Nationality/Status: {request.patientNationalityStatus}</p>
                             <p>Terrain: {request.terrainDescription}</p>
-                            <p>Site Marking: {request.siteMarking}</p>
+                            <p>Site Marking: {parseJSONField(request.siteMarking)}</p>
                         </>
                     </td>
                 </tr>
             )}
         </>
     );
-                    }
+}

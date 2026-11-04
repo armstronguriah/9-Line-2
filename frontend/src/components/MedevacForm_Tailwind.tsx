@@ -1,4 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
+import {saveRequest} from "../services/RequestApi.ts";
+
 
 interface MedevacFormData {
   location: string;
@@ -176,6 +178,7 @@ export function MedevacForm() {
     event.preventDefault();
     setShowErrors(true);
 
+
     if (Object.keys(validateForm(formData)).length > 0) {
       setSubmitted(false);
       return;
@@ -192,25 +195,16 @@ export function MedevacForm() {
 
       console.log(requestBody);
 
-      const response = await fetch(
-          "http://localhost:8080/api/requests",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(requestBody),
-          }
-      )
+      const response = await saveRequest(requestBody)
+      console.log("request saved successfully")
       console.log(response)
+      setSubmitted(true)
 
-      const savedData = await response.json();
-
-      console.log(savedData);
     }
     catch (error) {
+      console.error("failed to save request", error);
       setSubmitted(false);
     }
-    setSubmitted(true)
-    
 
   };
 
