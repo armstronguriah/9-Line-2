@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import RequestRow from "../components/RequestRow.tsx";
 import type {MedevacRequest} from "../components/MedevacRequest.ts";
 
@@ -37,7 +37,8 @@ export default function Responder() {
                     .map(([key]) => key)
                     .join(", ") || "None";
             }
-        } catch {}
+        } catch {
+        }
         return fieldValue;
     };
 
@@ -52,27 +53,28 @@ export default function Responder() {
             {requests.length === 0 ? (
                 <p>No active requests found in the database.</p>
             ) : (
-                <table border={1} cellPadding={8} style={{ width: "100%", borderCollapse: "collapse" }}>
-                    <thead>
-                    <tr>
-                        <th>Expand</th>
-                        <th>Precedence</th>
-                        <th>Location</th>
-                        <th>Radio / Call Sign</th>
-                        <th>Site Security</th>
-                        <th>Special Equipment</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {requests.map((req) => (
-                        <RequestRow
-                            key={req.id}
-                            request={req}
-                            parseJSONField={parseJSONField}
-                        />
-                    ))}
-                    </tbody>
-                </table>
+                <div className={"overflow-x-auto rounded-lg border border-slate-200 shadow-sm"}>
+                    <table className="w-full min-w-[700px] text-left text-sm">
+                        <thead>
+                        <tr className={"bg-yellow-300 text-slate-700"}>
+                            <th className={"px-4 py-3"}>Expand</th>
+                            <th className={"px-4 py-3"}>Precedence</th>
+                            <th className={"px-4 py-3"}>Location</th>
+                            <th className={"px-4 py-3"}>Radio / Call Sign</th>
+                            <th className={"px-4 py-3"}>Site Security</th>
+                            <th className={"px-4 py-3"}>Special Equipment</th>
+                        </tr>
+                        </thead>
+                        <tbody className={"divide-y divide-slate-200"}>
+                        {requests.map((req) => (
+                            <RequestRow
+                                key={req.id}
+                                request={req}
+                            />
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );
