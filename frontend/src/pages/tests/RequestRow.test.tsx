@@ -21,10 +21,9 @@ describe ('RequestRow', () => {
         siteMarking: "",
         patientNationalityStatus: "",
         terrainDescription: "",
-        status: "Pending"
-    }} parseJSONField={(val: string) => val}
-        
-    />);
+        status: "Pending",
+
+    }}/>);
 
         const expandToggle = screen.getByRole('row',{name:'expand'});
         await user.click(expandToggle);

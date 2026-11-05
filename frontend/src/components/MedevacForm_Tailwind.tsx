@@ -25,6 +25,7 @@ interface MedevacFormData {
   };
   patientNationalityStatus: string;
   terrainDescription: string;
+  status: string;
 }
 
 type FormErrors = Partial<Record<keyof MedevacFormData, string>>;
@@ -133,6 +134,7 @@ export function MedevacForm() {
     },
     patientNationalityStatus: "",
     terrainDescription: "",
+    status: "PENDING"
   });
 
   const [showErrors, setShowErrors] = useState(false);

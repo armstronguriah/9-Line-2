@@ -1,17 +1,17 @@
 
 
 export interface MedevacRequest {
-    id: number;
+    id?: number;
     location: string;
     radioFreq: string;
-    patientNumber: number;
+    patientNumber: number | "";
     patientPrecedence: string;
     specialEquipment: string;
-    patientLitter: number;
-    patientAmbulatory: number;
+    patientLitter: number | "";
+    patientAmbulatory: number | "";
     siteSecurity: string;
     siteMarking: string;
     patientNationalityStatus: string;
     terrainDescription: string;
-    status: string;
+    status?: string;
 }

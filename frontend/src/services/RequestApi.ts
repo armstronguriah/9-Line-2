@@ -2,7 +2,7 @@ import type {MedevacRequest} from "../components/MedevacRequest";
 const apiBaseURL = "http://localhost:8080/";
 type requestPromise = (request: MedevacRequest) =>Promise<MedevacRequest>;
 type requestList = () => Promise<MedevacRequest[]>
-export const saveRequest: requestPromise = (request: MedevacRequest) =>
+export const saveRequest: requestPromise = (request) =>
 {
     return fetch(apiBaseURL + "api/requests",
         {
