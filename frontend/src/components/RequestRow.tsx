@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type {MedevacRequest} from "./MedevacRequest.ts";
 
+
 type RequestProps = {
     request: MedevacRequest;
 };
@@ -14,6 +15,15 @@ export default function RequestRow({request}: RequestProps) {
         console.log("Sending request", request.id);
     }
 
+    // handle special equipment display
+    const specialEquipmentData = request.specialEquipment;
+    const regex = /"(\w+)":\s*true\b/g;
+    const activeEquipment = [...specialEquipmentData.matchAll(regex)].map(match => match[1]);
+
+    // handle method of marking display
+    const siteMarkingData = request.siteMarking;
+    const activeSiteMarking = [...siteMarkingData.matchAll(regex)].map(match => match[1]);
+
     return (
         <>
 
@@ -23,7 +33,8 @@ export default function RequestRow({request}: RequestProps) {
                 <td>{request.location}</td>
                 <td>{request.radioFreq}</td>
                 <td>{request.siteSecurity}</td>
-                <td>{request.specialEquipment}</td>
+                <td>{activeEquipment.join(", ")}</td>
+
 
             </tr>
 
@@ -51,7 +62,7 @@ export default function RequestRow({request}: RequestProps) {
                             <p>Patients: {request.patientNumber} (Litter: {request.patientLitter}, Ambulatory: {request.patientAmbulatory})</p>
                             <p>Nationality/Status: {request.patientNationalityStatus}</p>
                             <p>Terrain: {request.terrainDescription}</p>
-                            <p>Site Marking: {request.siteMarking}</p>
+                            <p>Site Marking: {activeSiteMarking.length > 1 ? activeSiteMarking.join(", "):activeSiteMarking}</p>
                             <p>Status: {request.status}</p>
                         </>
                     </td>
