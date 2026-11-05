@@ -25,8 +25,11 @@ export const fetchRequest: requestList = async ():Promise<MedevacRequest[]> =>
         {
             method:
                 'GET'
-        }).then((response)=>
-    {
+        }).then((response)=>{
+        if (!response.ok) {
+            throw new Error("Failed to fetch requests");
+        }
+
         return response.json();
 
     })
