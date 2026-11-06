@@ -5,6 +5,11 @@ import type {MedevacRequest} from "./MedevacRequest.ts";
 type RequestProps = {
     request: MedevacRequest;
 };
+
+// <button onClick={handleDelete} value={"Delete?"} aria-label={'deleteButton'}
+//         name={'deleteButton'}>
+//     Delete
+// </button>
 export default function RequestRow({request}: RequestProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
@@ -27,29 +32,32 @@ export default function RequestRow({request}: RequestProps) {
     return (
 
         <>
-            <tr onClick={() => setIsExpanded(!isExpanded)} style={{cursor: "pointer"}} aria-label={'expand'}>
-                <td className="px-4 py-3">{isExpanded ? "[-]" : "[+]"}</td>
+            <tr >
+                <td className={"flex justify-center px-4 py-7"}><input onClick={() => setIsSelected(!isSelected)} style={{cursor: "pointer"}}
+                    type="checkbox" name="checkbox" aria-label={'checkbox'}
+                           checked={isSelected} onChange={(event) => setIsSelected(event.target.checked)}/>
+                </td>
                 <td className="px-4 py-3">{request.patientPrecedence}</td>
                 <td className="px-4 py-3">{request.location}</td>
                 <td className="px-4 py-3">{request.radioFreq}</td>
                 <td className="px-4 py-3">{request.siteSecurity}</td>
                 <td className="px-4 py-3">{activeEquipment.join(", ")}</td>
+                <td onClick={()=> setIsExpanded(!isExpanded)} style={{cursor: "pointer"}}
+                    className="px-4 py-3">{isExpanded ? "Hide" : "View"}</td>
+                <td onClick={()=> handleDelete()} style={{cursor: "pointer"}}
+                    className="px-4 py-3">{isSelected ? "Delete" : ""}</td>
+
 
 
             </tr>
 
             {isExpanded && (
                 <tr>
-                    <td><input type="checkbox" name="checkbox" aria-label={'checkbox'}
-                               checked={isSelected} onChange={(event) => setIsSelected(event.target.checked)}/>
-                    </td>
+
                     <td> {isSelected && (
 
                         <span>
-                            <button onClick={handleDelete} value={"Delete?"} aria-label={'deleteButton'}
-                                    name={'deleteButton'}>
-                              Delete
-                            </button>
+
 
 
                         <button onClick={sendToResponder} value={"Send To Responder?"} aria-label={'responderButton'}

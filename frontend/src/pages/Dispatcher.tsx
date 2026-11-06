@@ -49,6 +49,8 @@ export default function Dispatcher() {
                             <th className={"px-4 py-3"}>Radio / Call Sign</th>
                             <th className={"px-4 py-3"}>Site Security</th>
                             <th className={"px-4 py-3"}>Special Equipment</th>
+                            <th className={"px-4 py-3"}>Details</th>
+                            <th className={"px-4 py-3"}></th>
                         </tr>
                         </thead>
                         <tbody className={"divide-y divide-slate-200"}>
