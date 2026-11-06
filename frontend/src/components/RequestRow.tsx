@@ -1,14 +1,15 @@
 import { useState } from "react";
 import type { MedevacRequest } from "./MedevacRequest.ts";
-import DispatcherModal from "./DispatcherModal.tsx";
+
 
 
 type RequestProps = {
     request: MedevacRequest;
+    updateViewedRequest: (request: MedevacRequest) => void
 };
 
-export default function RequestRow({ request }: RequestProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+export default function RequestRow({ request, updateViewedRequest }: RequestProps) {
+
     const [isSelected, setIsSelected] = useState(false);
 
     const handleDelete = () => {
@@ -39,7 +40,7 @@ export default function RequestRow({ request }: RequestProps) {
                 <td className="px-4 py-3">{request.siteSecurity}</td>
                 <td className="px-4 py-3">{activeEquipment.join(", ")}</td>
                 <td
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => updateViewedRequest(request)}
                     style={{ cursor: "pointer" }}
                     className="px-4 py-3 text-blue-600 hover:underline"
                 >
@@ -53,11 +54,6 @@ export default function RequestRow({ request }: RequestProps) {
                     {isSelected ? "Delete" : ""}
                 </td>
             </tr>
-            <DispatcherModal
-                show={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                request={request}
-            />
         </>
     );
 }
