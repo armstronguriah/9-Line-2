@@ -1,4 +1,5 @@
 import type { MedevacRequest } from "./MedevacRequest";
+import {saveStatus} from "../services/RequestApi.ts";
 
 interface DispatcherModalProps {
     show: boolean;
@@ -20,6 +21,10 @@ export default function DispatcherModal({
             .filter(key => data[key] === true)
             .join(', ');
     }
+
+    // const handleSubmit = () => {
+    //     saveStatus(request?.id, request?.status)
+    // }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
