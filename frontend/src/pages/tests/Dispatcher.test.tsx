@@ -30,11 +30,11 @@ describe('Dispatcher', () => {
                 radioFreq: "34.50 MHz (AN/PRC-117F)",
                 patientNumber: 2,
                 patientPrecedence: "Urgent",
-                specialEquipment: "Hoist, Oxygen",
+                specialEquipment: "{\"none\":false,\"hoist\":true,\"extractionEquipment\":false,\"ventilator\":false}",
                 patientLitter: 1,
                 patientAmbulatory: 1,
                 siteSecurity: "Secure / Possible enemy in area",
-                siteMarking: "Smoke (Green)",
+                siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
                 patientNationalityStatus: "US Military",
                 terrainDescription: "Open field bordered by dense treeline",
                 status: "En Route",
@@ -46,11 +46,11 @@ describe('Dispatcher', () => {
                 radioFreq: "121.50 MHz",
                 patientNumber: 1,
                 patientPrecedence: "Priority",
-                specialEquipment: "None",
+                specialEquipment:  "{\"none\":false,\"hoist\":true,\"extractionEquipment\":false,\"ventilator\":false}",
                 patientLitter: "",
                 patientAmbulatory: 1,
                 siteSecurity: "No enemy contact reported",
-                siteMarking: "Signal Mirror",
+                siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
                 patientNationalityStatus: "Civilian Contractor",
                 terrainDescription: "Rocky ridge, slope steep on North side",
                 status: "Pending",
@@ -147,6 +147,76 @@ describe('Dispatcher', () => {
 
         screen.logTestingPlaygroundURL();
 
+    })
+
+    it('should delete a request when the delete link is clicked', async () => {
+
+        const medevacRequests: MedevacRequest[] = [
+            {
+                id: 1,
+                location: "Grid 32U CU 4567 8901",
+                radioFreq: "34.50 MHz (AN/PRC-117F)",
+                patientNumber: 2,
+                patientPrecedence: "Urgent",
+                specialEquipment: "{\"none\":false,\"hoist\":true,\"extractionEquipment\":false,\"ventilator\":false}",
+                patientLitter: 1,
+                patientAmbulatory: 1,
+                siteSecurity: "Secure / Possible enemy in area",
+                siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
+                patientNationalityStatus: "US Military",
+                terrainDescription: "Open field bordered by dense treeline",
+                status: "En Route"
+            },
+            {
+                id: 2,
+                location: "LZ Sparrow (34.0522° N, 118.2437° W)",
+                radioFreq: "121.50 MHz",
+                patientNumber: 1,
+                patientPrecedence: "Priority",
+                specialEquipment:  "{\"none\":false,\"hoist\":true,\"extractionEquipment\":false,\"ventilator\":false}",
+                patientLitter: "",
+                patientAmbulatory: 1,
+                siteSecurity: "No enemy contact reported",
+                siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
+                patientNationalityStatus: "Civilian Contractor",
+                terrainDescription: "Rocky ridge, slope steep on North side",
+                status: "Pending"
+            }
+        ];
+
+        const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+            ok: true,
+            json: async () => medevacRequests,
+        } as Response);
+
+
+
+        render(<Dispatcher/>)
+
+        expect(screen.getByText("Dispatcher Operations Dashboard")).toBeInTheDocument();
+
+        expect(await screen.findByText('Total Active Requests: 2')).toBeInTheDocument();
+
+        expect(fetchMock).toHaveBeenCalledWith("http://localhost:8080/api/requests");
+
+        const selectBox1 = screen.getByRole('checkbox', { name: /checkbox\-1/i })
+
+        user.click(selectBox1)
+
+
+        const deleteLink = screen.getByRole('cell', {name: /delete-1/i})
+
+        user.click(deleteLink)
+
+        expect(await screen.findByText('Are you sure?')).toBeInTheDocument();
+
+        const yesLink = screen.getByRole('button', {name: /yes/i})
+
+        user.click(yesLink)
+
+        expect(screen.queryByRole('checkbox', {name: /checkbox\-1/i})).not.toBeInTheDocument();
+
+        screen.logTestingPlaygroundURL();
     })
 
 })

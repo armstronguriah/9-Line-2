@@ -27,8 +27,8 @@ export default function RequestRow({ request, updateViewedRequest }: RequestProp
                 <td className="flex justify-center px-4 py-7">
                     <input
                         type="checkbox"
-                        name="checkbox"
-                        aria-label="checkbox"
+                        name={`checkbox-${request.id}`}
+                        aria-label={`checkbox-${request.id}`}
                         checked={isSelected}
                         onChange={(event) => setIsSelected(event.target.checked)}
                         style={{ cursor: "pointer" }}
@@ -48,6 +48,7 @@ export default function RequestRow({ request, updateViewedRequest }: RequestProp
                     View
                 </td>
                 <td
+                    aria-label={`delete-${request.id}`}
                     onClick={handleDelete}
                     style={{ cursor: "pointer" }}
                     className="px-4 py-3 text-red-600 font-semibold"
