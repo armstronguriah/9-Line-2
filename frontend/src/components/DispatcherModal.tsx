@@ -13,6 +13,14 @@ export default function DispatcherModal({
                                         }: DispatcherModalProps) {
     if (!show) return null;
 
+    function getTrueKeys(jsonStr:string) {
+        const data = JSON.parse(jsonStr);
+
+        return Object.keys(data)
+            .filter(key => data[key] === true)
+            .join(', ');
+    }
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
             {/* Modal Container */}
@@ -54,7 +62,7 @@ export default function DispatcherModal({
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-100">
                                     <span className="font-semibold text-right text-gray-700">Special Equipment</span>
-                                    <span className="text-gray-900">{request.specialEquipment || "None"}</span>
+                                    <span className="text-gray-900">{getTrueKeys(request.specialEquipment) || "None"}</span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-100">
                                     <span className="font-semibold text-right text-gray-700">Litter Patient</span>
@@ -70,7 +78,7 @@ export default function DispatcherModal({
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-100">
                                     <span className="font-semibold text-right text-gray-700">Method of Marking</span>
-                                    <span className="text-gray-900">{request.siteMarking}</span>
+                                    <span className="text-gray-900">{getTrueKeys(request.siteMarking)}</span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4 py-1 border-b border-gray-100">
                                     <span className="font-semibold text-right text-gray-700">Patient Nationality and status</span>
