@@ -1,17 +1,13 @@
-import Dispatcher from "../Dispatcher.tsx";
 import {render, screen} from '@testing-library/react'
-//import {expect, describe, it} from "vitest";
+import Dispatcher from "../Dispatcher";
+import {expect, describe, it} from "vitest";
 
 
-describe('Requester', () => {
+describe('Dispatcher', () => {
 
-    it('should render correctly', () => {
+    it('should render correctly', async () => {
         render(<Dispatcher/>)
-        expect(screen.getByRole("heading", {name: "Dispatcher Operations Dashboard"})).toBeVisible();
+        expect(await screen.findByRole("heading", {name: "Dispatcher Operations Dashboard"})).toBeInTheDocument();
 
-        // expect(screen.getByRole("table", {name: "dispatch-table"})).toBeVisible()
     });
-
-
-
 })
