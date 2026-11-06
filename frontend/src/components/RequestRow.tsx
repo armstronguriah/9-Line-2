@@ -11,7 +11,7 @@ export default function RequestRow({request}: RequestProps) {
     const handleDelete = () => {
         console.log("Delete Request", request.id);
     }
-    const sendToDispatcher = () => {
+    const sendToResponder = () => {
         console.log("Sending request", request.id);
     }
 
@@ -52,9 +52,9 @@ export default function RequestRow({request}: RequestProps) {
                             </button>
 
 
-                        <button onClick={sendToDispatcher} value={"Send To Dispatcher?"} aria-label={'dispatcherButton'}
-                                name={'dispatcherButton'}>
-                            Send to dispatcher
+                        <button onClick={sendToResponder} value={"Send To Responder?"} aria-label={'responderButton'}
+                                name={'responderButton'}>
+                            Send to responder
                         </button>
 
                         </span>

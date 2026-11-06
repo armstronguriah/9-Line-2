@@ -17,8 +17,8 @@ function NavBar() {
 
                 <div className="flex items-center gap-4">
                     <NavLink className={linkStyle} to="/" end>Requester</NavLink>
-                    <NavLink className={linkStyle} to="/responder">Responder</NavLink>
                     <NavLink className={linkStyle} to="/dispatcher">Dispatcher</NavLink>
+                    <NavLink className={linkStyle} to="/responder">Responder</NavLink>
                 </div>
             </div>
         </nav>
