@@ -37,7 +37,8 @@ describe('Dispatcher', () => {
                 siteMarking: "Smoke (Green)",
                 patientNationalityStatus: "US Military",
                 terrainDescription: "Open field bordered by dense treeline",
-                status: "En Route"
+                status: "En Route",
+                assignedTo: "ASSIGNED"
             },
             {
                 id: 2,
@@ -52,7 +53,8 @@ describe('Dispatcher', () => {
                 siteMarking: "Signal Mirror",
                 patientNationalityStatus: "Civilian Contractor",
                 terrainDescription: "Rocky ridge, slope steep on North side",
-                status: "Pending"
+                status: "Pending",
+                assignedTo: "ASSIGNED"
             }
         ];
 
@@ -97,8 +99,8 @@ describe('Dispatcher', () => {
                 siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
                 patientNationalityStatus: "US Military",
                 terrainDescription: "Open field bordered by dense treeline",
-                status: "En Route"
-            },
+                status: "Pending",
+                assignedTo: "ASSIGNED"            },
             {
                 id: 2,
                 location: "LZ Sparrow (34.0522° N, 118.2437° W)",
@@ -112,8 +114,8 @@ describe('Dispatcher', () => {
                 siteMarking: "{\"panels\":false,\"pyrotechnicSignal\":true,\"smokeSignal\":true,\"none\":false,\"other\":false}",
                 patientNationalityStatus: "Civilian Contractor",
                 terrainDescription: "Rocky ridge, slope steep on North side",
-                status: "Pending"
-            }
+                status: "Pending",
+                assignedTo: "ASSIGNED"            }
         ];
 
         const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue({

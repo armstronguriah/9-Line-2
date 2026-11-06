@@ -1,11 +1,14 @@
 import ResponderRow from "../components/ResponderRow.tsx";
 import {useEffect, useState} from "react";
 import type {MedevacRequest} from "../components/MedevacRequest.ts";
+import DispatcherModal from "../components/DispatcherModal.tsx";
 
 
 export default function Responder(){
     const [requests, setRequests] = useState<MedevacRequest[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [viewedRequest, setviewedRequest] = useState<MedevacRequest | null>(null)
 
     // 1. FETCH DATA: Calls your Spring Boot backend when the page loads
     useEffect(() => {
@@ -51,9 +54,16 @@ export default function Responder(){
                         <ResponderRow
                         key={req.id}
                     request={req}
+                        updateViewedRequest={(request: MedevacRequest) => {setviewedRequest(request)
+                            setIsModalOpen(true)}}
                     />
-                        ) : "No Data"
+                        ) : ""
                     ))}
+                    <DispatcherModal
+                        show={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        request={viewedRequest}
+                    />
                     </tbody>
                 </table>
             </div>

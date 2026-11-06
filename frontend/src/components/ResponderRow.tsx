@@ -5,9 +5,10 @@ import DispatcherModal from "./DispatcherModal.tsx";
 
 type RequestProps = {
     request: MedevacRequest;
+    updateViewedRequest: (request: MedevacRequest) => void
 };
 
-export default function ResponderRow({ request }: RequestProps) {
+export default function ResponderRow({ request, updateViewedRequest }: RequestProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
 
@@ -41,7 +42,8 @@ export default function ResponderRow({ request }: RequestProps) {
                 <td className="px-4 py-3">{activeEquipment.join(", ")}</td>
                 <td className="px-4 py-3">{request.status}</td>
                 <td
-                    onClick={() => setIsModalOpen(true)}
+                    aria-label={`view-${request.id}`}
+                    onClick={() => updateViewedRequest(request)}
                     style={{ cursor: "pointer" }}
                     className="px-4 py-3 text-blue-600 hover:underline"
                 >
