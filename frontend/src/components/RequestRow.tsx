@@ -40,6 +40,7 @@ export default function RequestRow({ request, updateViewedRequest }: RequestProp
                 <td className="px-4 py-3">{request.siteSecurity}</td>
                 <td className="px-4 py-3">{activeEquipment.join(", ")}</td>
                 <td
+                    aria-label={`view-${request.id}`}
                     onClick={() => updateViewedRequest(request)}
                     style={{ cursor: "pointer" }}
                     className="px-4 py-3 text-blue-600 hover:underline"
