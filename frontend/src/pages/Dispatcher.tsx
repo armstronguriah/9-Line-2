@@ -7,7 +7,6 @@ import type {MedevacRequest} from "../components/MedevacRequest.ts";
 
 export default function Dispatcher() {
     const [requests, setRequests] = useState<MedevacRequest[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // 1. FETCH DATA: Calls your Spring Boot backend when the page loads
@@ -19,16 +18,12 @@ export default function Dispatcher() {
             })
             .then((data) => {
                 setRequests(data);
-                setLoading(false);
             })
             .catch((err) => {
                 setError(err.message);
-                setLoading(false);
             });
     }, []);
 
-
-    if (loading) return <p>Loading requests...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
@@ -40,7 +35,7 @@ export default function Dispatcher() {
                 <p>No active requests found in the database.</p>
             ) : (
                 <div className={"overflow-x-auto rounded-lg border border-slate-200 shadow-sm"}>
-                    <table className="w-full min-w-[700px] text-left text-sm">
+                    <table className="w-full min-w-[700px] text-left text-sm" aria-label={"dispatch-table"}>
                         <thead>
                         <tr className={"bg-yellow-300 text-slate-700"}>
                             <th className={"px-4 py-3"}>Expand</th>
