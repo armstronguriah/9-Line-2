@@ -1,4 +1,4 @@
-import {render, screen, waitFor} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import Dispatcher from "../Dispatcher";
 import {expect, describe, it} from "vitest";
 import {userEvent} from "@testing-library/user-event/dist/cjs/setup/index.js";

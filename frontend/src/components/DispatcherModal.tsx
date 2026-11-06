@@ -13,7 +13,7 @@ export default function DispatcherModal({
                                         }: DispatcherModalProps) {
     if (!show) return null;
 
-    function getTrueKeys(jsonStr) {
+    function getTrueKeys(jsonStr:string) {
         const data = JSON.parse(jsonStr);
 
         return Object.keys(data)
