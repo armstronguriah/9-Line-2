@@ -14,4 +14,5 @@ export interface MedevacRequest {
     patientNationalityStatus: string;
     terrainDescription: string;
     status?: string;
+    assignedTo: string;
 }

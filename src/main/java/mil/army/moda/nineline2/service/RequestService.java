@@ -67,4 +67,19 @@ public class RequestService {
 
         return Optional.of(requestRepository.save(existingRequest));
     }
+
+    public Optional <Request> updateAssignedTo(Long id, String assigned){
+        var request = requestRepository.findById(id);
+
+        if (request.isEmpty()){
+            return Optional.empty();
+        }
+
+        var existingRequest = request.get();
+
+        existingRequest.setAssignedTo(assigned);
+
+        return Optional.of(requestRepository.save(existingRequest));
+
+    }
 }

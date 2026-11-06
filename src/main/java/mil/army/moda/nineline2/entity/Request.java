@@ -81,6 +81,9 @@ public class Request {
     @Column(nullable = false)
     private String status = "PENDING";
 
+    private String assignedTo;
+
+
 //    public Request(Long id, String location, String radioFreq, Integer patientNumber, String patientPrecedence, String specialEquipment, Integer patientLitter, Integer patientAmbulatory, String siteSecurity, String siteMarking, String patientNationalityStatus, String terrainDescription) {
 //    }
 

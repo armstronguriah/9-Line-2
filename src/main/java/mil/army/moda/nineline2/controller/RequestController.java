@@ -62,4 +62,16 @@ public class RequestController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @PatchMapping("/{id}/assignedTo")
+    public ResponseEntity<Request> updateAssignedTo(
+            @PathVariable Long id,
+            @RequestBody String assigned) {
+
+        var updatedRequest = requestService.updateAssignedTo(id, assigned);
+
+        return updatedRequest
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }

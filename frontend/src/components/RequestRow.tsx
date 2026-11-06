@@ -16,7 +16,7 @@ export default function RequestRow({ request }: RequestProps) {
     };
 
     // Handle special equipment display
-    const specialEquipmentData = request.specialEquipment || "";
+    const specialEquipmentData = request.specialEquipment;
     const regex = /"(\w+)":\s*true\b/g;
     const activeEquipment = [...specialEquipmentData.matchAll(regex)].map(match => match[1]);
 
